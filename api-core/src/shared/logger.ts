@@ -1,7 +1,4 @@
-import path from 'path';
 import winston from 'winston';
-
-const logsDir = path.join(process.cwd(), 'logs');
 
 // Define levels of severity with colors
 const customLevels = {

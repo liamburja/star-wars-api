@@ -1,4 +1,4 @@
-import { StarWarsApiService } from '../../../services/star-wars.api';
+
 import { Service } from 'typedi';
 import { BaseUseCase } from '../../base/base.use-case';
 import { CreateFilmDTO, IFilmDocument, UpdateFilmDTO } from '../interfaces/film.interfaces';
@@ -12,9 +12,7 @@ export class FilmUseCase extends BaseUseCase<
   CreateFilmDTO,
   UpdateFilmDTO
 > {
-  starWarsService: StarWarsApiService;
-  constructor(repository: FilmRepository, starWarsService: StarWarsApiService) {
+  constructor(repository: FilmRepository) {
     super(repository, 'film');
-    this.starWarsService = starWarsService;
   }
 }

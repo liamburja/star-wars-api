@@ -1,4 +1,3 @@
-import { StarWarsApiService } from '../../../services/star-wars.api';
 import { Service } from 'typedi';
 import { BaseUseCase } from '../../base/base.use-case';
 import { CreatePeopleDTO, IPeopleDocument, UpdatePeopleDTO } from '../interfaces/people.interfaces';
@@ -12,9 +11,7 @@ export class PeopleUseCase extends BaseUseCase<
   CreatePeopleDTO,
   UpdatePeopleDTO
 > {
-  starWarsService: StarWarsApiService;
-  constructor(repository: PeopleRepository, starWarsService: StarWarsApiService) {
+  constructor(repository: PeopleRepository) {
     super(repository, 'people');
-    this.starWarsService = starWarsService;
   }
 }
