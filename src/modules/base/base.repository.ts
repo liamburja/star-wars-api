@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Document, Model, PipelineStage } from 'mongoose';
 
 export class BaseRepository<TDocument extends Document, TReturn = TDocument> {
@@ -53,7 +54,7 @@ export class BaseRepository<TDocument extends Document, TReturn = TDocument> {
         
         const countPipeline = [
           ...pipeline,
-          { $count: "total" }
+          { $count: 'total' }
         ];
         
         const [documents, countResult] = await Promise.all([

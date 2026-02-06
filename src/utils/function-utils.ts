@@ -6,7 +6,7 @@ export function parseNumber(value: string): number | undefined {
   return isNaN(parsed) ? undefined : parsed;
 }
 
-export function extractCharacterNumber(url: string): number {
-    const match = url.match(/\/people\/(\d+)\//);
+export function extractFinallyUrlNumber(url: string, type: string): number {
+    const match = url.match(new RegExp(`\\/${type}\\/(\\d+)\\/`));
     return match ? parseInt(match[1], 10) : 0;
   }

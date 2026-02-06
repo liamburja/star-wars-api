@@ -14,7 +14,7 @@ class Film implements IFilm {
   starships?: string[];
   vehicles?: string[];
   species?: string[];
-  url: string;
+  numberFilm: number;
   
 
   constructor(film: IFilm) {
@@ -30,7 +30,7 @@ class Film implements IFilm {
     this.starships = film.starships;
     this.vehicles = film.vehicles;
     this.species = film.species;
-    this.url = film.url;
+    this.numberFilm = film.numberFilm;
     
   }
 }

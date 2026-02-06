@@ -1,11 +1,10 @@
 import { Router, Request, Response } from 'express';
 import { Container } from 'typedi';
-import { PeopleController } from '../controllers/people.controller';
+import { PlanetController } from '../controllers/planet.controller';
 
 const router = Router();
 
-const controller = Container.get(PeopleController);
-
+const controller = Container.get(PlanetController);
 router.get('/', (req: Request, res: Response) => {
 	const page = Number(req.query.page);
 	const limit = Number(req.query.limit);
