@@ -1,18 +1,17 @@
 import 'reflect-metadata';
 import { Container } from 'typedi';
-import Database from '../../shared/database';
-import logger from '../../shared/logger';
 import { setupContainer } from '../../container';
+import { CreatePeopleDTO } from '../../modules/people/interfaces/people.interfaces';
 import { PeopleUseCase } from '../../modules/people/use-case/people.use-case';
 import { DataType, StarWarsApiService } from '../../services/star-wars.api';
-import { extractCharacterNumber } from '../../utils/function-utils';
-import { CreatePeopleDTO } from '../../modules/people/interfaces/people.interfaces';
-import { AddPeople } from '../AddData/add-people';
-import { parseNumber } from '../../utils/function-utils';
+import Database from '../../shared/database';
+import logger from '../../shared/logger';
+import { extractFinallyUrlNumber, parseNumber } from '../../utils/function-utils';
+import { AddPeople } from '../addData/add-people';
 
 
 async function UpdatePeople() {
-  await Database.connect()
+  await Database.connect();
 
   setupContainer();
 
@@ -26,12 +25,11 @@ async function UpdatePeople() {
   const { data } = await peopleUseCase.findAll(1, 1000);
 
   for (const person of results) {
-    const numberCharacter = extractCharacterNumber(person.url);
+    const numberCharacter = extractFinallyUrlNumber(person.url, 'people');
 
     const existingPerson = data.find(p => p.numberCharacter === numberCharacter);
 
     try {
-
       if (!existingPerson) {
         const peopleData: CreatePeopleDTO = {
           name: person.name,
@@ -60,6 +58,7 @@ async function UpdatePeople() {
           gender: person.gender,
           homeworld: person.homeworld,
         };
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const updates: any = {};
 
         (Object.keys(apiData) as Array<keyof typeof apiData>).forEach((key) => {
@@ -83,4 +82,4 @@ async function UpdatePeople() {
   await Database.disconnect();
 }
 
-UpdatePeople()
+UpdatePeople();

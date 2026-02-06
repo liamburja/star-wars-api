@@ -1,9 +1,11 @@
+import { JsonController } from 'routing-controllers';
 import { Service } from 'typedi';
 import { BaseController } from '../../base/base.controller';
-import { PeopleUseCase } from '../use-case/people.use-case';
-import { IPeopleDocument, CreatePeopleDTO, UpdatePeopleDTO } from '../interfaces/people.interfaces';
+import { CreatePeopleDTO, IPeopleDocument, UpdatePeopleDTO } from '../interfaces/people.interfaces';
 import { People } from '../schemas/people.schema';
+import { PeopleUseCase } from '../use-case/people.use-case';
 
+@JsonController('/people')
 @Service()
 export class PeopleController extends BaseController<
   IPeopleDocument,
@@ -12,6 +14,6 @@ export class PeopleController extends BaseController<
   UpdatePeopleDTO
 > {
   constructor(private peopleUseCase: PeopleUseCase) {
-    super(peopleUseCase);
+    super(peopleUseCase, 'people');
   }
 }

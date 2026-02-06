@@ -1,4 +1,4 @@
-import { IPeople } from "./people.interfaces";
+import { IPeople } from './people.interfaces';
 
 
 class People implements IPeople {
@@ -16,7 +16,7 @@ class People implements IPeople {
   species?: string[];
   vehicles?: string[];
   starships?: string[];
-  numberCharacter: number
+  numberCharacter: number;
 
   constructor(people: IPeople) {
     this.id = people.id;
@@ -26,7 +26,7 @@ class People implements IPeople {
     this.hair_color = people.hair_color;
     this.skin_color = people.skin_color;
     this.eye_color = people.eye_color;
-    this.birth_year = people.birth_year
+    this.birth_year = people.birth_year;
     this.gender = people.gender;
     this.homeworld = people.homeworld;
     this.films = people.films;

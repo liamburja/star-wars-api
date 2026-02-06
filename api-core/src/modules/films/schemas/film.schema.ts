@@ -13,7 +13,7 @@ const filmSchema = new Schema({
   starships: [{ type: String }],
   vehicles: [{ type: String }],
   species: [{ type: String }],
-  url: { type: String, required: true }
+  numberFilm: { type: Number, required: true }
 }, {
   timestamps: true,
   versionKey: false,

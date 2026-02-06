@@ -1,13 +1,23 @@
-import { Request, Response } from 'express';
-import { BaseUseCase } from './base.use-case';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { Response } from 'express';
 import { Document } from 'mongoose';
+import {
+  Body,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+  QueryParam,
+  Res
+} from 'routing-controllers';
 import {
   sendOk,
   sendCreated,
   sendNotFound,
-  sendBadRequest,
   sendInternalServerError
 } from '../../utils/responses.utils';
+import { BaseUseCase } from './base.use-case';
 
 export class BaseController<
   TDocument extends Document,
@@ -16,78 +26,99 @@ export class BaseController<
   TUpdateDTO = Partial<TReturn>
 > {
   protected useCase: BaseUseCase<TDocument, TReturn, TCreateDTO, TUpdateDTO>;
+  private resourceName: string;
 
-  constructor(useCase: BaseUseCase<TDocument, TReturn, TCreateDTO, TUpdateDTO>) {
+  constructor(
+    useCase: BaseUseCase<TDocument, TReturn, TCreateDTO, TUpdateDTO>,
+    resourceName = 'resource'
+  ) {
     this.useCase = useCase;
+    this.resourceName = resourceName;
   }
 
-  create = async (req: Request, res: Response): Promise<Response> => {
+  @Post()
+  async create(
+    @Body() data: TCreateDTO,
+    @Res() res: Response
+  ): Promise<Response> {
     try {
-      const data = req.body as TCreateDTO;
       const result = await this.useCase.create(data);
       return sendCreated(res, result);
     } catch (error: any) {
       console.error('Error creating:', error);
       return sendInternalServerError(res);
     }
-  };
+  }
 
-  findById = async (req: Request, res: Response): Promise<Response> => {
+  @Get('/:id')
+  async findById(
+    @Param('id') id: string,
+    @Res() res: Response
+  ): Promise<Response> {
     try {
-      const { id } = req.params as { id: string };
       const result = await this.useCase.findById(id);
       
       if (!result) {
-        return sendNotFound(res, 'Resource not found');
+        return sendNotFound(res, `${this.resourceName} not found`);
       }
       
       return sendOk(res, result);
     } catch (error: any) {
       return sendInternalServerError(res);
     }
-  };
+  }
 
-  findAll = async (req: Request, res: Response): Promise<Response> => {
+  @Get()
+  async findAll(
+    @QueryParam('page') page: number,
+    @QueryParam('limit') limit: number,
+    @Res() res: Response
+  ): Promise<Response> {
     try {
-      const page = parseInt(req.query.page as string) || 1;
-      const limit = parseInt(req.query.limit as string) || 10;
+      const safePage = Number.isFinite(page) && page > 0 ? page : 1;
+      const safeLimit = Number.isFinite(limit) && limit > 0 ? limit : 10;
       
-      const result = await this.useCase.findAll(page, limit);
+      const result = await this.useCase.findAll(safePage, safeLimit);
       return sendOk(res, result);
     } catch (error: any) {
       return sendInternalServerError(res);
     }
-  };
+  }
 
-  update = async (req: Request, res: Response): Promise<Response> => {
+  @Patch('/:id')
+  async update(
+    @Param('id') id: string,
+    @Body() data: TUpdateDTO,
+    @Res() res: Response
+  ): Promise<Response> {
     try {
-      const { id } = req.params as { id: string };
-      const data = req.body as TUpdateDTO;
-      
       const result = await this.useCase.update(id, data);
       
       if (!result) {
-        return sendNotFound(res, 'Resource not found');
+        return sendNotFound(res, `${this.resourceName} not found`);
       }
       
       return sendOk(res, result);
     } catch (error: any) {
       return sendInternalServerError(res);
     }
-  };
+  }
 
-  delete = async (req: Request, res: Response): Promise<Response> => {
+  @Delete('/:id')
+  async delete(
+    @Param('id') id: string,
+    @Res() res: Response
+  ): Promise<Response> {
     try {
-      const { id } = req.params as { id: string };
       const result = await this.useCase.delete(id);
       
       if (!result) {
-        return sendNotFound(res, 'Resource not found');
+        return sendNotFound(res, `${this.resourceName} not found`);
       }
       
-      return sendOk(res, { message: 'Resource deleted successfully' });
+      return sendOk(res, { message: `${this.resourceName} deleted successfully` });
     } catch (error: any) {
       return sendInternalServerError(res);
     }
-  };
+  }
 }

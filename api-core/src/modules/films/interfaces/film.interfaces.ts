@@ -13,7 +13,7 @@ export interface IFilmDocument extends Document {
   starships?: string[];
   vehicles?: string[];
   species?: string[];
-  url: string;
+  numberFilm: number;
   
 }
 
@@ -30,7 +30,7 @@ export interface IFilm {
   starships?: string[];
   vehicles?: string[];
   species?: string[];
-  url: string;
+  numberFilm: number;
 }
 
 export interface CreateFilmDTO {
@@ -45,7 +45,7 @@ export interface CreateFilmDTO {
   starships?: string[];
   vehicles?: string[];
   species?: string[];
-  url: string;
+  numberFilm: number;
 }
 
 export interface FilmResponseDTO extends IFilm {

@@ -1,16 +1,16 @@
 import 'reflect-metadata';
 import { Container } from 'typedi';
-import Database from '../../shared/database';
-import logger from '../../shared/logger';
 import { setupContainer } from '../../container';
+import { CreatePeopleDTO } from '../../modules/people/interfaces/people.interfaces';
 import { PeopleUseCase } from '../../modules/people/use-case/people.use-case';
 import { DataType, StarWarsApiService } from '../../services/star-wars.api';
-import { extractCharacterNumber, parseNumber } from '../../utils/function-utils';
-import { CreatePeopleDTO } from '../../modules/people/interfaces/people.interfaces';
+import Database from '../../shared/database';
+import logger from '../../shared/logger';
+import { extractFinallyUrlNumber, parseNumber } from '../../utils/function-utils';
 
 
 async function AddAllPeople() {
-  await Database.connect()
+  await Database.connect();
 
   setupContainer();
 
@@ -24,7 +24,7 @@ async function AddAllPeople() {
 
   for (const person of results) {
     try {
-      const numberCharacter = extractCharacterNumber(person.url);
+      const numberCharacter = extractFinallyUrlNumber(person.url, 'people');
       const peopleData: CreatePeopleDTO = {
         name: person.name,
         height: parseNumber(person.height) ? parseNumber(person.height)! : undefined,
@@ -49,7 +49,7 @@ async function AddAllPeople() {
 }
 
 export async function AddPeople(data: CreatePeopleDTO) {
-  await Database.connect()
+  await Database.connect();
 
   setupContainer();
 
@@ -64,4 +64,4 @@ export async function AddPeople(data: CreatePeopleDTO) {
   }
 }
 
-// AddAllPeople();
+AddAllPeople();
