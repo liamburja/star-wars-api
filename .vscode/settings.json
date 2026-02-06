@@ -1,0 +1,14 @@
+{
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit"
+  },
+  "eslint.validate": [
+    "typescript"
+  ],
+  "eslint.workingDirectories": [
+    {
+      "directory": "api-core",
+      "changeProcessCWD": true
+    }
+  ]
+}
