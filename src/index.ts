@@ -9,6 +9,7 @@ import { setupContainer } from './container';
 import filmRoutes from './modules/films/routes/film.routes';
 import peopleRoutes from './modules/people/routes/people.routes';
 import planetsRoutes from './modules/planets/routes/planet.routes';
+import speciesRoutes from './modules/species/routes/species.routes';
 import Database from './shared/database';
 import { swaggerSpec } from './shared/swagger';
 
@@ -32,6 +33,7 @@ function createApp() {
   app.use('/people', peopleRoutes);
   app.use('/films', filmRoutes);
   app.use('/planets', planetsRoutes);
+  app.use('/species', speciesRoutes);
   return app;
 }
 
