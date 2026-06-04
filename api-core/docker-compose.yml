@@ -4,7 +4,7 @@ services:
     volumes:
       - mongo_storage:/data/db
     ports:
-      - 27017:27017
+      - 127.0.0.1:27017:27017
     healthcheck:
       test: echo 'db.runCommand("ping").ok' | mongosh localhost:27017/test
       interval: 10s
